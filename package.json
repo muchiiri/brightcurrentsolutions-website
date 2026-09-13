@@ -1,0 +1,12 @@
+{
+  "name": "brightcurrent-solutions-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static marketing site for BrightCurrent Solutions. Playwright is a dev-only dependency used to screenshot/QA pages; it is not required to run the site.",
+  "scripts": {
+    "screenshot": "node scripts/screenshot.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
