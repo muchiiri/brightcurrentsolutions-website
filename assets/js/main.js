@@ -138,8 +138,31 @@
     });
   });
 
-  /* ---------- Footer year ---------- */
+  /* ---------- Footer year ----------
+     The footer markup itself is authored once in partials/footer.html and
+     baked into every page as static HTML by `npm run sync-footer` (see that
+     script for why — a runtime fetch of the partial only works over
+     http(s), and this site is routinely opened via file://). Only the
+     copyright year is filled in at runtime. */
   document.querySelectorAll("[data-year]").forEach(function (el) {
     el.textContent = String(new Date().getFullYear());
+  });
+
+  /* ---------- Scroll-to-top button ---------- */
+  var scrollTopBtn = document.createElement("button");
+  scrollTopBtn.type = "button";
+  scrollTopBtn.className = "scroll-top-btn";
+  scrollTopBtn.setAttribute("aria-label", "Scroll to top");
+  scrollTopBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>';
+  document.body.appendChild(scrollTopBtn);
+
+  function toggleScrollTopBtn() {
+    scrollTopBtn.classList.toggle("is-visible", window.scrollY > 600);
+  }
+  window.addEventListener("scroll", toggleScrollTopBtn, { passive: true });
+  toggleScrollTopBtn();
+
+  scrollTopBtn.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 })();
