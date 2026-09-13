@@ -67,7 +67,12 @@
   <div class="contact-grid">
     <div class="contact-form-col">
       <h3 style="font-size:16px;margin-bottom:16px;">Request a quote</h3>
-      <form data-quote-form novalidate>
+      <form data-quote-form action="send-quote.php" method="POST" novalidate>
+        <!-- Honeypot: hidden from real visitors, bots tend to fill every field -->
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+          <label for="website">Leave this field blank</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-grid-2">
           <div class="field">
             <label for="name">Name</label>
@@ -144,9 +149,6 @@
         <a href="https://wa.me/254748891464" class="btn btn-gold mt-24" style="display:inline-flex;">WhatsApp us
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
         </a>
-      </div>
-      <div class="map-block">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 22s7-7.4 7-12.5A7 7 0 0 0 5 9.5C5 14.6 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
       </div>
     </div>
   </div>

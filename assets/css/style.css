@@ -425,14 +425,16 @@ section.band.alt { background: var(--panel-alt); }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label { font-size: 12px; color: var(--muted); font-weight: 600; }
 .field input, .field select, .field textarea {
-  border: var(--border-w) solid var(--line);
+  border: none;
   border-radius: var(--radius-md);
-  padding: 11px 12px;
+  padding: 12px;
   background: #fff;
+  box-shadow: var(--shadow-sm);
   font-size: 14px;
+  transition: box-shadow .15s ease;
 }
 .field textarea { resize: vertical; min-height: 100px; }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--green); }
+.field input:focus, .field select:focus, .field textarea:focus { box-shadow: 0 0 0 2px var(--green); }
 .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .radio-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .radio-chip {
@@ -539,8 +541,6 @@ section.band.alt { background: var(--panel-alt); }
 .direct-item .k { font-size: 10.5px; color: var(--muted-2); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 3px; }
 .direct-item .v { font-size: 14px; color: var(--ink); }
 .direct-item a.v:hover { color: var(--green); }
-.map-block { min-height: 240px; background: var(--placeholder-bg); border-top: none; display:flex; align-items:center; justify-content:center; color: var(--muted-2); position: relative; }
-.map-block svg { width: 60px; height: 60px; opacity: .5; }
 
 /* ---------- Page hero (inner pages) ---------- */
 .page-hero { padding: 52px 0 46px; background: var(--panel-alt); }

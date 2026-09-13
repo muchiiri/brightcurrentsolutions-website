@@ -83,21 +83,48 @@
   var quoteForm = document.querySelector("[data-quote-form]");
   if (quoteForm) {
     var status = quoteForm.querySelector("[data-form-status]");
+    var submitBtn = quoteForm.querySelector('button[type="submit"]');
+
+    function setStatus(ok, message) {
+      if (!status) return;
+      status.textContent = message;
+      status.classList.remove(ok ? "err" : "ok");
+      status.classList.add(ok ? "ok" : "err", "is-visible");
+    }
+
     quoteForm.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!quoteForm.checkValidity()) {
         quoteForm.reportValidity();
         return;
       }
-      // NOTE: no backend is wired up yet. This is a placeholder confirmation
-      // so the form is fully interactive; connect it to an email service,
-      // form endpoint (e.g. Formspree) or CRM before launch.
-      if (status) {
-        status.textContent = "Thanks — your request has been noted. We'll be in touch within one business day. (Form submission isn't connected to a backend yet.)";
-        status.classList.remove("err");
-        status.classList.add("ok", "is-visible");
-      }
-      quoteForm.reset();
+
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch(quoteForm.getAttribute("action"), {
+        method: "POST",
+        body: new FormData(quoteForm),
+        headers: { "Accept": "application/json" }
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            return { httpOk: res.ok, data: data };
+          });
+        })
+        .then(function (result) {
+          var ok = result.httpOk && result.data.ok;
+          var message = result.data.message || (ok
+            ? "Thanks — your request has been sent. We'll be in touch within one business day."
+            : "Something went wrong sending your request. Please call or WhatsApp us instead.");
+          setStatus(ok, message);
+          if (ok) quoteForm.reset();
+        })
+        .catch(function () {
+          setStatus(false, "Something went wrong sending your request — please check your connection, or call or WhatsApp us instead.");
+        })
+        .finally(function () {
+          if (submitBtn) submitBtn.disabled = false;
+        });
     });
   }
 
