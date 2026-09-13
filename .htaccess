@@ -1,0 +1,32 @@
+# BrightCurrent Solutions — clean URLs (Apache/mod_rewrite)
+# Serves brightcurrentsolutions.com/about instead of /about.html.
+# Internal links in the HTML still point to *.html on purpose, so the site
+# keeps working when a page is opened directly as a local file (file://),
+# where mod_rewrite does not run. On a real Apache server this file:
+#   1. redirects /page.html -> /page (so the address bar always shows the
+#      clean URL, even if something links to the .html version), and
+#   2. internally serves the matching .html file when /page is requested,
+#      without changing the URL shown to the visitor.
+
+DirectoryIndex index.html
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # /index.html -> / (root, not /index)
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\s/index\.html[\s?] [NC]
+  RewriteRule ^ /? [R=301,L]
+
+  # /anything.html -> /anything
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\s/([^.]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # /anything -> serve anything.html (URL stays clean)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+ErrorDocument 404 /404.html
