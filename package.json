@@ -5,6 +5,7 @@
   "description": "Static marketing site for BrightCurrent Solutions. Playwright is a dev-only dependency used to screenshot/QA pages; it is not required to run the site.",
   "scripts": {
     "dev": "node scripts/dev-server.js",
+    "sync-navbar": "node scripts/sync-navbar.js",
     "sync-footer": "node scripts/sync-footer.js",
     "screenshot": "node scripts/screenshot.js"
   },

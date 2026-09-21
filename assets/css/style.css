@@ -160,8 +160,8 @@ section.band.alt { background: var(--panel-alt); }
   justify-content: space-between;
   height: 76px;
 }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: #fff; }
-.brand-mark { width: 34px; height: 34px; flex: none; }
+.brand { display: flex; align-items: center; flex: none; padding: 4px 8px; border-radius: var(--radius-sm); background: #fff; }
+.brand-logo { width: 145px; height: auto; }
 
 .main-nav { display: flex; align-items: center; gap: 6px; }
 .main-nav a:not(.btn) {
@@ -400,8 +400,8 @@ section.band.alt { background: var(--panel-alt); }
   gap: 28px;
   padding: 48px 0 28px;
 }
-.footer-brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 16px; margin-bottom: 8px; }
-.footer-brand .brand-mark { width: 30px; height: 30px; }
+.footer-brand { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: var(--radius-sm); background: #fff; margin-bottom: 8px; }
+.footer-brand .brand-logo { width: 165px; }
 .footer-col h5 { color: #fff; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; }
 .footer-col a, .footer-col p, .footer-col li { font-size: 13px; line-height: 2; color: #b9b9b3; }
 .footer-col a:hover { color: #fff; }
@@ -651,4 +651,5 @@ section.band.alt { background: var(--panel-alt); }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 
   .site-header .container { height: 66px; }
+  .brand-logo { width: 130px; }
 }
