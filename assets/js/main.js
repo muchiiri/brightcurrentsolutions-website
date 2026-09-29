@@ -84,6 +84,8 @@
   if (quoteForm) {
     var status = quoteForm.querySelector("[data-form-status]");
     var submitBtn = quoteForm.querySelector('button[type="submit"]');
+    var tsField = quoteForm.querySelector('[name="form_ts"]');
+    var tokenField = quoteForm.querySelector('[name="form_token"]');
 
     function setStatus(ok, message) {
       if (!status) return;
@@ -91,6 +93,22 @@
       status.classList.remove(ok ? "err" : "ok");
       status.classList.add(ok ? "ok" : "err", "is-visible");
     }
+
+    // Fetch the anti-spam token as soon as the page actually loads in a
+    // browser (see token.php / spam-guard.php). A script that POSTs
+    // straight to send-quote.php without loading this page never gets a
+    // token and is rejected there.
+    if (submitBtn) submitBtn.disabled = true;
+    fetch("token.php", { headers: { Accept: "application/json" } })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (tsField) tsField.value = data.ts;
+        if (tokenField) tokenField.value = data.token;
+      })
+      .catch(function () { /* server will reject with a clear error below */ })
+      .finally(function () {
+        if (submitBtn) submitBtn.disabled = false;
+      });
 
     quoteForm.addEventListener("submit", function (e) {
       e.preventDefault();

@@ -30,3 +30,21 @@ Options -MultiViews
 </IfModule>
 
 ErrorDocument 404 /404.html
+
+# ---------------------------------------------------------------------------
+# Emergency IP block for form-spam abuse.
+# Find the offending IP(s) in your host's raw access/error logs (cPanel:
+# Metrics > Raw Access, or ask your host for the send-quote.php request log),
+# then uncomment the matching block below and add the IP(s), one per line.
+#
+# Apache 2.4 (most current hosting):
+# <RequireAll>
+#   Require all granted
+#   Require not ip 203.0.113.5
+# </RequireAll>
+#
+# Apache 2.2 (older hosting):
+# Order allow,deny
+# Allow from all
+# Deny from 203.0.113.5
+# ---------------------------------------------------------------------------

@@ -14,6 +14,7 @@
  */
 
 header('Content-Type: application/json; charset=utf-8');
+require __DIR__ . '/spam-guard.php';
 
 // ---------- Config -------------------------------------------------------
 define('SALES_EMAIL', 'Sales@brightcurrentsolutions.com');
@@ -50,6 +51,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // most bots fill in every field they find. Pretend success and drop it.
 if (!empty($_POST['website'])) {
     respond(true, "Thanks — your request has been sent. We'll be in touch within one business day.");
+}
+
+// ---------- Proof-of-page-load token ----------------------------------------
+// Blocks scripts that POST straight to this file (skipping the honeypot
+// entirely) without ever having loaded the real contact page and its token.
+if (!spam_guard_verify_token($_POST['form_ts'] ?? null, $_POST['form_token'] ?? null)) {
+    respond(false, 'Your session has expired. Please refresh the page and try again.', 403);
+}
+
+// ---------- Per-IP rate limit -----------------------------------------------
+$clientIp = spam_guard_client_ip();
+if (spam_guard_rate_limited($clientIp)) {
+    respond(false, "You've already sent a request recently — we'll be in touch shortly. For anything urgent, call or WhatsApp us directly.", 429);
 }
 
 // ---------- Collect + validate ----------------------------------------------
